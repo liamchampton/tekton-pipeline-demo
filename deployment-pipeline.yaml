@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: deployment-pipeline
+spec:
+  params:
+    - name: ibmcloudapikey
+      description: The IBM Cloud API Key
+    - name: uuid
+      description: A unique identifier
+  tasks:
+    - name: pipeline-ibm-cloud-install-task
+      taskRef:
+        name: ibm-cloud-install-task
+      params:
+        - name: ibmcloudapikey
+          value: $(params.ibmcloudapikey)
+        - name: uuid
+          value: $(params.uuid)

@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: hello-trigger-template
+spec:
+  params:
+    - name: ibmcloudapikey
+      description: The IBM Cloud API Key
+    - name: uuid
+      description: A unique identifier
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        name: pipelinerun-$(params.uuid)
+      spec:
+        pipelineRef:
+          name: deployment-pipeline
+        params:
+          - name: ibmcloudapikey
+            value: $(params.ibmcloudapikey)
+          - name: uuid
+            value: $(params.uuid)

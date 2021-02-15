@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: ibm-cloud-install-task
+spec:
+  params:
+    - name: ibmcloudapikey
+      type: string
+    - name: uuid
+      type: string
+  steps:
+    - name: login-and-deploy-function
+      image: ibmcom/ibm-cloud-developer-tools-amd64:1.2.3
+      script: |
+        #!/usr/bin/env sh
+        echo $(params.uuid)
+        
+        ibmcloud login -a cloud.ibm.com -r eu-gb -g Default -apikey $(params.ibmcloudapikey)
+
+        echo Logged into IBM Cloud
